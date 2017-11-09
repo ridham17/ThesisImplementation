@@ -6,31 +6,55 @@ import java.util.Set;
 public class TransitionSystem {
 
     public int tsID;
-    public Set<State> Q;
+    public Set<String> Q;
     public Set<String> sigma;
     public Set<Transition> transitionSet;
-    public Set<State> I;
-    public Set<State> F;
+    public Set<String> I;
+    public Set<String> F;
 
-    protected TransitionSystem(int tsID,Set<String> sigma)
+    public int getTsID() {
+        return tsID;
+    }
+
+    public Set<String> getStateSpace() {
+        return Q;
+    }
+
+    public Set<String> getAlphabets() {
+        return sigma;
+    }
+
+    public Set<Transition> getTransitionSet() {
+        return transitionSet;
+    }
+
+    public Set<String> getInitStates() {
+        return I;
+    }
+
+    public Set<String> getFinalStates() {
+        return F;
+    }
+
+    protected TransitionSystem(int tsID, Set<String> sigma)
     {
         this.tsID = tsID;
         this.sigma = sigma;
-        Q = new HashSet<State>();
-        I = new HashSet<State>();
-        F = new HashSet<State>();
+        Q = new HashSet<String>();
+        I = new HashSet<String>();
+        F = new HashSet<String>();
     }
 
-    public TransitionSystem(int tsID,Set<State> q, Set<String> sigma, Set<State> i) {
+    public TransitionSystem(int tsID,Set<String> q, Set<String> sigma, Set<String> i) {
         this.tsID = tsID;
         Q = q;
         this.sigma = sigma;
         I = i;
         transitionSet= new HashSet<Transition>();
-        F = new HashSet<State>();
+        F = new HashSet<String>();
     }
 
-    public TransitionSystem(int tsID,Set<State> q, Set<String> sigma, Set<State> i, Set<State> f) {
+    public TransitionSystem(int tsID,Set<String> q, Set<String> sigma, Set<String> i, Set<String> f) {
         this.tsID = tsID;
         Q = q;
         this.sigma = sigma;
@@ -41,7 +65,9 @@ public class TransitionSystem {
 
     public boolean addTransition(Transition transition)
     {
-        if(Q.contains(transition.getFrom())&&Q.contains(transition.getTo())&&sigma.contains(transition.getLebel()))
+        if(Q.contains(transition.getFrom())&&
+                Q.contains(transition.getTo())&&
+                sigma.contains(transition.getLebel()))
         {
             for(Transition t:transitionSet)
             {
@@ -68,22 +94,37 @@ public class TransitionSystem {
         return  false;
     }
 
+    public boolean checkValidity()
+    {
+        for (String state:I) {
+            if (!Q.contains(state))
+                return false;
+        }
+
+        for (String state:F){
+            if (!Q.contains(state))
+                return false;
+        }
+
+        return true;
+    }
+
     @Override
     public String toString() {
         String finalString = "\n\nTransaction Syatem Id:"+tsID+"\nStates are";
-        for (State s:Q)
+        for (String s:Q)
             finalString+=" "+s.toString();
 
         finalString+="\nAlphabets are";
         for (String s:sigma)
             finalString+=" "+s;
 
-        finalString+="\nInitial States are";
-        for (State s:I)
+        finalString+="\nInitial Strings are";
+        for (String s:I)
             finalString+=" "+s.toString();
 
-        finalString+="\nFinal States are";
-        for (State s:F)
+        finalString+="\nFinal Strings are";
+        for (String s:F)
             finalString+=" "+s.toString();
 
         finalString+="\n\nTransitions are";
@@ -92,4 +133,6 @@ public class TransitionSystem {
 
         return finalString;
     }
+
+
 }

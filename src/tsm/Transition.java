@@ -1,10 +1,9 @@
 package tsm;
 
 public class Transition {
-    public String lebel;
-    State from,to;
+    public String lebel,from,to;
 
-    public Transition(String lebel, State from, State to) {
+    public Transition(String lebel, String from, String to) {
         this.lebel = lebel;
         this.from = from;
         this.to = to;
@@ -18,25 +17,25 @@ public class Transition {
         this.lebel = lebel;
     }
 
-    public State getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(State from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public State getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(State to) {
+    public void setTo(String to) {
         this.to = to;
     }
 
     @Override
     public String toString() {
-        return "tsm.Transition from tsm.State "+from+" to tsm.State "+to+" on input "+lebel;
+        return "Transition from State "+from+" to State "+to+" on input "+lebel;
     }
 
     public boolean isSameAs(Transition transition)

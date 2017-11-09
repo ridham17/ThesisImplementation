@@ -1,5 +1,4 @@
-import pm.Process;
-import tsm.State;
+import dm.Distribution;
 import tsm.Transition;
 import tsm.TransitionSystem;
 
@@ -9,47 +8,41 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //
         //System.out.print("Started Implementation");
         //System.out.print("Today Nov 9");
-/*
-        Set<tsm.Transition> set = new HashSet<tsm.Transition>();
-        set.add(new tsm.Transition("A","asd","zxc"));
-        set.add(new tsm.Transition("B","zxc","asd"));
 
-        for(tsm.Transition s:set)
-        {
-            System.out.println(s);
-        }
+        HashSet<String> states = new HashSet<>();
 
-        tsm.Transition t = new tsm.Transition("B","zxc","asd");
+        states.add("A");
+        states.add("B");
+        states.add("B");
 
-
-        for(tsm.Transition s:set)
-        {
-            if(s.isSameAs(t))
-                System.out.println(s);
-        }
-*/
-        HashSet<State> states = new HashSet<State>();
-        State stateA = new State("A");
-        State stateB = new State("B");
-        states.add(stateA);
-        states.add(stateB);
-
-        HashSet<String> alpb = new HashSet<String>();
+        HashSet<String> alpb = new HashSet<>();
         alpb.add("0");
         alpb.add("1");
 
-        HashSet<State> ins = new HashSet<State>();
-        ins.add(stateA);
+        HashSet<String> initStates = new HashSet<String>();
+        initStates.add("A");
 
-        TransitionSystem transitionSystem = new Process(123,states,alpb,ins);
+        HashSet<String> finalStates = new HashSet<String>();
+        finalStates.add("B");
 
-        transitionSystem.addTransition(new Transition("0",stateA,stateB));
-        transitionSystem.addTransition(new Transition("1",stateB,stateA));
-        transitionSystem.addTransition(new Transition("1",stateB,stateA));
 
+        TransitionSystem transitionSystem = new TransitionSystem(123,states,alpb,initStates,finalStates);
+
+        assert transitionSystem.addTransition(new Transition("0","A","B"));
+        assert transitionSystem.addTransition(new Transition("1","B","A"));
+       // assert transitionSystem.addTransition(new Transition("1","B","A"));
+
+        assert transitionSystem.checkValidity();
         System.out.print(transitionSystem);
+
+
+        Distribution distribution = new Distribution();
+
+
+
 
     }
 }

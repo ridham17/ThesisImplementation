@@ -1,6 +1,5 @@
-package pm;
+package dm;
 
-import tsm.State;
 import tsm.TransitionSystem;
 
 import java.util.Set;
