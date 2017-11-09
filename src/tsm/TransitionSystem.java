@@ -5,13 +5,24 @@ import java.util.Set;
 
 public class TransitionSystem {
 
+    public int tsID;
     public Set<State> Q;
     public Set<String> sigma;
     public Set<Transition> transitionSet;
     public Set<State> I;
     public Set<State> F;
 
-    public TransitionSystem(Set<State> q, Set<String> sigma, Set<State> i) {
+    protected TransitionSystem(int tsID,Set<String> sigma)
+    {
+        this.tsID = tsID;
+        this.sigma = sigma;
+        Q = new HashSet<State>();
+        I = new HashSet<State>();
+        F = new HashSet<State>();
+    }
+
+    public TransitionSystem(int tsID,Set<State> q, Set<String> sigma, Set<State> i) {
+        this.tsID = tsID;
         Q = q;
         this.sigma = sigma;
         I = i;
@@ -19,7 +30,8 @@ public class TransitionSystem {
         F = new HashSet<State>();
     }
 
-    public TransitionSystem(Set<State> q, Set<String> sigma, Set<State> i, Set<State> f) {
+    public TransitionSystem(int tsID,Set<State> q, Set<String> sigma, Set<State> i, Set<State> f) {
+        this.tsID = tsID;
         Q = q;
         this.sigma = sigma;
         I = i;
@@ -58,19 +70,19 @@ public class TransitionSystem {
 
     @Override
     public String toString() {
-        String finalString = "\n\nStates are";
+        String finalString = "\n\nTransaction Syatem Id:"+tsID+"\nStates are";
         for (State s:Q)
             finalString+=" "+s.toString();
 
-        finalString+="\n\nAlphabets are";
+        finalString+="\nAlphabets are";
         for (String s:sigma)
             finalString+=" "+s;
 
-        finalString+="\n\nInitial States are";
+        finalString+="\nInitial States are";
         for (State s:I)
             finalString+=" "+s.toString();
 
-        finalString+="\n\nFinal States are";
+        finalString+="\nFinal States are";
         for (State s:F)
             finalString+=" "+s.toString();
 

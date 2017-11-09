@@ -43,7 +43,7 @@ public class Main {
         HashSet<State> ins = new HashSet<State>();
         ins.add(stateA);
 
-        TransitionSystem transitionSystem = new Process(states,alpb,ins);
+        TransitionSystem transitionSystem = new Process(123,states,alpb,ins);
 
         transitionSystem.addTransition(new Transition("0",stateA,stateB));
         transitionSystem.addTransition(new Transition("1",stateB,stateA));
