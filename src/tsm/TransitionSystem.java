@@ -7,6 +7,7 @@ public class TransitionSystem {
 
     public int tsID;
     public Set<String> Q;
+    public Set<Stat> linkedStates;
     public Set<String> sigma;
     public Set<Transition> transitionSet;
     public Set<String> I;
@@ -18,6 +19,10 @@ public class TransitionSystem {
 
     public Set<String> getStateSpace() {
         return Q;
+    }
+
+    public Set<Stat> getLinkedStates() {
+        return linkedStates;
     }
 
     public Set<String> getAlphabets() {
@@ -43,6 +48,10 @@ public class TransitionSystem {
         Q = new HashSet<String>();
         I = new HashSet<String>();
         F = new HashSet<String>();
+        linkedStates = new HashSet<Stat>();
+        for (String stateName:Q)
+            linkedStates.add(new Stat(stateName));
+
     }
 
     public TransitionSystem(int tsID,Set<String> q, Set<String> sigma, Set<String> i) {
@@ -52,6 +61,9 @@ public class TransitionSystem {
         I = i;
         transitionSet= new HashSet<Transition>();
         F = new HashSet<String>();
+        linkedStates = new HashSet<Stat>();
+        for (String stateName:Q)
+            linkedStates.add(new Stat(stateName));
     }
 
     public TransitionSystem(int tsID,Set<String> q, Set<String> sigma, Set<String> i, Set<String> f) {
@@ -61,6 +73,9 @@ public class TransitionSystem {
         I = i;
         F = f;
         transitionSet= new HashSet<Transition>();
+        linkedStates = new HashSet<Stat>();
+        for (String stateName:Q)
+            linkedStates.add(new Stat(stateName));
     }
 
     public boolean addTransition(Transition transition)
@@ -76,13 +91,19 @@ public class TransitionSystem {
             }
 
             transitionSet.add(transition);
-            return true;
 
+            for (Stat state:linkedStates)
+                if(state.getLabel().equals(transition.getFrom()))
+                {
+                    assert  state.addTransition(transition);
+                    return true;
+                }
         }
-        else
-            return false;
-    }
 
+
+        return false;
+    }
+/*
     public boolean removeTransition(Transition transition)
     {
         for (Transition t: transitionSet) {
@@ -93,7 +114,7 @@ public class TransitionSystem {
         }
         return  false;
     }
-
+*/
     public boolean checkValidity()
     {
         for (String state:I) {
@@ -108,6 +129,8 @@ public class TransitionSystem {
 
         return true;
     }
+
+
 
     @Override
     public String toString() {

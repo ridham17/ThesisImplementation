@@ -12,10 +12,19 @@ public class Proc extends TransitionSystem {
 
     public boolean isSameAs(Proc process)
     {
-        if(process.getAlphabets().containsAll(sigma) && sigma.containsAll(process.getAlphabets()))
+        if(tsID==process.getTsID() || (process.getAlphabets().containsAll(sigma) && sigma.containsAll(process.getAlphabets())))
             return true;
         else 
             return false;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        String finalString = "\n\nProcess ID: " +tsID+ "\nAlphabets are ";
+        for (String s:sigma)
+            finalString+=" "+s;
+
+        return finalString;
+    }
 }
 

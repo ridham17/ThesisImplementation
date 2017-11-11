@@ -52,5 +52,14 @@ public class Distribution {
             return false;
     }
 
+    @Override
+    public String toString() {
+        String finalString = "\nDistribution Name: "+distId;
 
+        finalString += "\nProcess are:";
+        for (Proc proc :processSet)
+            finalString+=proc.toString();
+
+        return finalString;
+    }
 }
