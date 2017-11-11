@@ -5,21 +5,22 @@ import java.util.Set;
 
 public class Distribution {
     public String distId;
-    public Set<Process> processSet;
+    public Set<Proc> processSet;
     public Set<String> sigma;
 
     public Distribution(String distId, Set<String> sigma) {
         this.distId = distId;
         this.sigma = sigma;
+        processSet = new HashSet<>();
     }
 
-    public Distribution(String distId, Set<Process> processSet, Set<String> sigma) {
+    public Distribution(String distId, Set<Proc> processSet, Set<String> sigma) {
         this.distId = distId;
         this.processSet = processSet;
         this.sigma = sigma;
     }
 
-    public Set<Process> getProcessSet() {
+    public Set<Proc> getProcessSet() {
         return processSet;
     }
 
@@ -27,15 +28,21 @@ public class Distribution {
         return sigma;
     }
 
-    public boolean addProcess(){
-        return true;
+    public boolean addProcess(Proc process)
+    {
+        for(Proc p:processSet)
+        {
+           if(p.isSameAs(process))
+               return false;
+        }
+        return processSet.add(process);
     }
 
     public boolean checkValidity()
     {
         Set<String> testSigma = new HashSet<>();
 
-        for (Process process:processSet) {
+        for (Proc process:processSet) {
             testSigma.addAll(process.getAlphabets());
         }
 

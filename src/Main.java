@@ -1,4 +1,5 @@
 import dm.Distribution;
+import dm.Proc;
 import tsm.Transition;
 import tsm.TransitionSystem;
 
@@ -39,10 +40,12 @@ public class Main {
         System.out.print(transitionSystem);
 
 
-        Distribution distribution = new Distribution();
+        Distribution distribution = new Distribution("Dist1",alpb);
+        Proc process = new Proc(1,alpb);
 
 
 
+        assert distribution.checkValidity();
 
     }
 }
