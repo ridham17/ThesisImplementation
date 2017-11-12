@@ -6,10 +6,12 @@ import java.util.Set;
 public class Stat {
     String label;
     Set<Transition> linkes;
+    boolean processStatus;
 
     public Stat(String label) {
         this.label = label;
         linkes = new HashSet<>();
+        processStatus = false;
     }
 
     public String getLabel() {
@@ -18,6 +20,20 @@ public class Stat {
 
     public Set<Transition> getLinkes() {
         return linkes;
+    }
+
+    public boolean getProcessStatus() {
+        return processStatus;
+    }
+
+    public void resetProcessedStatus()
+    {
+        processStatus = false;
+    }
+
+    public void setProcessedStatus()
+    {
+        processStatus = true;
     }
 
     public boolean addTransition(Transition transition)

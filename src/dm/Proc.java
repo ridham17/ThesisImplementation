@@ -18,6 +18,15 @@ public class Proc extends TransitionSystem {
             return false;
     }
 
+    public boolean containsAlphabet(String alph)
+    {
+        for (String aphabet:sigma)
+            if(alph.equals(aphabet))
+                return true;
+
+        return false;
+    }
+
     @Override
     public String toString() {
         String finalString = "\n\nProcess ID: " +tsID+ "\nAlphabets are ";

@@ -25,6 +25,14 @@ public class TransitionSystem {
         return linkedStates;
     }
 
+    public Stat getLinkedState(String stateName) {
+        for (Stat state:linkedStates)
+            if(state.getLabel().equals(stateName))
+                return state;
+
+        return  null;
+    }
+
     public Set<String> getAlphabets() {
         return sigma;
     }
