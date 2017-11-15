@@ -124,6 +124,18 @@ public class TransitionSystem {
         return  false;
     }
 */
+
+    public Set<Transition> getAllTransitionWithLabel(String label)
+    {
+        Set<Transition> simTrans = new HashSet<Transition>();
+
+        for (Transition transition:transitionSet)
+            if(transition.getLebel().equals(label))
+                simTrans.add(transition);
+
+        return simTrans;
+    }
+
     public boolean checkValidity()
     {
         for (String state:I) {

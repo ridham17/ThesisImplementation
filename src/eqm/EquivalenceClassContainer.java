@@ -37,6 +37,10 @@ public class EquivalenceClassContainer {
         return null;
     }
 
+    public Set<EquivalenceClassWrapper> getEquivalenceClassWrappers() {
+        return equivalenceClassWrappers;
+    }
+
     @Override
     public String toString() {
         String finalString = "\n\nEquvalance Classes are:";

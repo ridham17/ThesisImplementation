@@ -57,6 +57,15 @@ public class EquivalenceClassWrapper {
         }
     }
 
+    public Set<String> getEqivalantStates(String state)
+    {
+        for (Set<String> set:eqClass)
+            if(set.contains(state))
+                return set;
+
+        return null;
+    }
+
     private boolean removeEq(String stateName){
         Iterator<Set<String>> iterator = eqClass.iterator();
         while (iterator.hasNext()) {
@@ -115,6 +124,21 @@ public class EquivalenceClassWrapper {
                 eqClass.remove(s);
         }
     }
+
+    public boolean isEquivalant(String stateOne,String stateTwo)
+    {
+        Set<String> fClass,sClass;
+        fClass = checkAndGetEqClassContaining(stateOne);
+        sClass = checkAndGetEqClassContaining(stateTwo);
+
+        assert fClass!=null && sClass!= null;
+
+        if(fClass.equals(sClass))
+            return true;
+        else
+            return false;
+    }
+
     @Override
     public String toString() {
         String finalString = "\nProcess "+eqClassFor +" Eqivalant States ";
