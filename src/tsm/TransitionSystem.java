@@ -98,11 +98,12 @@ public class TransitionSystem {
                     return false;
             }
 
-            transitionSet.add(transition);
+
 
             for (Stat state:linkedStates)
                 if(state.getLabel().equals(transition.getFrom()))
                 {
+                    transitionSet.add(transition);
                     assert  state.addTransition(transition);
                     return true;
                 }
@@ -161,6 +162,11 @@ public class TransitionSystem {
         finalString+="\n\nTransitions are";
         for (Transition t :transitionSet)
             finalString+="\n"+t.toString();
+
+        finalString+="\n\nLinkedStates are";
+        for (Stat t :linkedStates)
+            finalString+="\n"+t.toString();
+
 
         return finalString;
     }

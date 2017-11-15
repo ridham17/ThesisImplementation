@@ -18,11 +18,31 @@ public class EquivalenceClassContainer {
         }
     }
 
+    public EquivalenceClassContainer(EquivalenceClassContainer eqcc)
+    {
+        noOfEqClass = eqcc.noOfEqClass;
+        equivalenceClassWrappers = new HashSet<>();
+        for(EquivalenceClassWrapper ew:eqcc.equivalenceClassWrappers)
+        {
+            EquivalenceClassWrapper ewr = new EquivalenceClassWrapper(ew);
+            equivalenceClassWrappers.add(ewr);
+        }
+    }
+
     public EquivalenceClassWrapper getEquivalenceClass(int pID) {
         for (EquivalenceClassWrapper e: equivalenceClassWrappers)
             if (e.eqClassFor == pID)
                 return e;
 
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String finalString = "\n\nEquvalance Classes are:";
+        for (EquivalenceClassWrapper ew:equivalenceClassWrappers)
+            finalString+=ew.toString();
+
+        return  finalString;
     }
 }

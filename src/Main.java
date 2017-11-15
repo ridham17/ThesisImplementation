@@ -79,5 +79,67 @@ public class Main {
         DistributabilityChecker distributabilityChecker = new DistributabilityChecker(transitionSystem);
         distributabilityChecker.isDistributableWRT(distribution);
 
+
+
+
+
+
+
+
+
+
+        states = new HashSet<>();
+        states.add("A");
+        states.add("B");
+        states.add("C");
+        states.add("D");
+        states.add("E");
+        states.add("F");
+
+
+        pAlp = new HashSet<>();
+        pAlp.add("x");
+        pAlp.add("a");
+        pAlp.add("y");
+
+
+        initStates = new HashSet<String>();
+        initStates.add("A");
+        //initStates.add("C");
+
+
+        TransitionSystem transitionSystem2 = new TransitionSystem(1231,states,pAlp,initStates);
+
+        assert transitionSystem2.addTransition(new Transition("x","A","B"));
+        assert transitionSystem2.addTransition(new Transition("y","A","D"));
+        assert transitionSystem2.addTransition(new Transition("a","A","C"));
+        assert transitionSystem2.addTransition(new Transition("a","B","E"));
+        assert transitionSystem2.addTransition(new Transition("a","D","F"));
+
+        assert transitionSystem2.checkValidity();
+        System.out.print(transitionSystem2);
+
+
+        Distribution distribution2 = new Distribution("Test",pAlp);
+
+        pAlp = new HashSet<>();
+        pAlp.add("y");
+        pAlp.add("x");
+        process = new Proc(0,pAlp);
+        distribution2.addProcess(process);
+
+        pAlp = new HashSet<>();
+        pAlp.add("a");
+        process = new Proc(1,pAlp);
+        distribution2.addProcess(process);
+
+        assert distribution2.checkValidity();
+        System.out.println(distribution2);
+
+        DistributabilityChecker distributabilityChecker2 = new DistributabilityChecker(transitionSystem2);
+        distributabilityChecker2.isDistributableWRT(distribution2);
+
+
+
     }
 }
