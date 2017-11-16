@@ -54,7 +54,7 @@ public class Distribution {
 
     @Override
     public String toString() {
-        String finalString = "\nDistribution Name: "+distId;
+        String finalString = "\n\nDistribution Name: "+distId;
 
         finalString += "\nProcess are:";
         for (Proc proc :processSet)

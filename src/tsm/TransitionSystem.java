@@ -167,17 +167,21 @@ public class TransitionSystem {
         for (String s:I)
             finalString+=" "+s.toString();
 
-        finalString+="\nFinal Strings are";
-        for (String s:F)
-            finalString+=" "+s.toString();
+        if(!F.isEmpty()) {
+            finalString += "\nFinal Strings are";
+            for (String s : F)
+                finalString += " " + s.toString();
+        }
 
         finalString+="\n\nTransitions are";
         for (Transition t :transitionSet)
             finalString+="\n"+t.toString();
 
+/*
         finalString+="\n\nLinkedStates are";
         for (Stat t :linkedStates)
             finalString+="\n"+t.toString();
+*/
 
 
         return finalString;

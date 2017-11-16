@@ -8,13 +8,12 @@ import tsm.Transition;
 import tsm.TransitionSystem;
 
 import java.util.*;
-import java.util.jar.Attributes;
 
 public class DistributabilityChecker {
     public TransitionSystem transitionSystem;
     public Distribution distribution;
     public DomainContainer domains;
-    EquivalenceClassContainer equvalClasses;
+    EquivalenceClassContainer equalClasses;
 
     public DistributabilityChecker(TransitionSystem transitionSystem) {
         this.transitionSystem = transitionSystem;
@@ -30,7 +29,6 @@ public class DistributabilityChecker {
 
         return checkDSP3() && checkDSP4();
     }
-
 
     private boolean applyDSP1()
     {
@@ -50,7 +48,7 @@ public class DistributabilityChecker {
 
             for (Transition transition:statInProcess.getLinkes())
             {
-                System.out.println("\nIn Process: "+transition);
+                //System.out.println("\nIn Process: "+transition);
 
                 Stat nextStat = transitionSystem.getLinkedState(transition.getTo());
                 assert nextStat!=null;
@@ -66,7 +64,7 @@ public class DistributabilityChecker {
 
                     eqClassForP.addEqivalance(transition.getFrom());
                     eqClassForP.addEqivalance(transition.getTo());
-                    System.out.println("UnEqival Detected: "+transition.getFrom() +" AND "+transition.getTo()+" WRT "+eqClassForP.getEqClassFor());
+                    //System.out.println("UnEqival Detected: "+transition.getFrom() +" AND "+transition.getTo()+" WRT "+eqClassForP.getEqClassFor());
 
                 }
 
@@ -74,7 +72,7 @@ public class DistributabilityChecker {
                 {
                     EquivalenceClassWrapper eqClassForP = eqClsCntnr.getEquivalenceClass(process.getTsID());
 
-                    System.out.println("Eqival Detected: "+transition.getFrom() +" AND "+transition.getTo()+" WRT "+eqClassForP.getEqClassFor());
+                    //System.out.println("Eqival Detected: "+transition.getFrom() +" AND "+transition.getTo()+" WRT "+eqClassForP.getEqClassFor());
                     eqClassForP.addOrMergeEqivalance(transition.getFrom(),transition.getTo());
                 }
             }
@@ -83,9 +81,8 @@ public class DistributabilityChecker {
         for (Stat stat:transitionSystem.getLinkedStates())
             stat.resetProcessedStatus();
 
-        equvalClasses = new EquivalenceClassContainer(eqClsCntnr);
-        System.out.println(equvalClasses);
-
+        equalClasses = new EquivalenceClassContainer(eqClsCntnr);
+        //System.out.println(equalClasses);
 
         return true;
     }
@@ -93,7 +90,7 @@ public class DistributabilityChecker {
 
     private boolean applyDSP2()
     {
-        EquivalenceClassContainer eqClsCntnr = new EquivalenceClassContainer(equvalClasses);
+        EquivalenceClassContainer eqClsCntnr = new EquivalenceClassContainer(equalClasses);
         Queue<Stat> statesQueue = new LinkedList<Stat>();
 
         for (String state : transitionSystem.getInitStates()) {
@@ -109,7 +106,7 @@ public class DistributabilityChecker {
 
             for (Transition transition : statInProcess.getLinkes())
             {
-                System.out.println("In Process: " + transition);
+                //System.out.println("In Process: " + transition);
 
                 Stat nextStat = transitionSystem.getLinkedState(transition.getTo());
                 assert nextStat != null;
@@ -130,17 +127,15 @@ public class DistributabilityChecker {
                             equivalenceClass.addOrMergeEqivalance(transition.getTo(),simTrans.getTo());
 
                     }
-
                 }
             }
         }
 
-
         for (Stat stat:transitionSystem.getLinkedStates())
             stat.resetProcessedStatus();
 
-        equvalClasses = new EquivalenceClassContainer(eqClsCntnr);
-        System.out.println(equvalClasses);
+        equalClasses = new EquivalenceClassContainer(eqClsCntnr);
+        System.out.println(equalClasses);
 
         return true;
     }
@@ -154,12 +149,12 @@ public class DistributabilityChecker {
                 if (state.equals(compState))
                     continue ;
 
-                for (EquivalenceClassWrapper eqClass:equvalClasses.getEquivalenceClassWrappers())
+                for (EquivalenceClassWrapper eqClass:equalClasses.getEquivalenceClassWrappers())
                 {
                     if (!eqClass.isEquivalant(state,compState))
                         continue next;
                 }
-                System.out.println("Is Equivalant for "+state+" "+compState);
+                System.out.println("States are Equivalant for "+state+" "+compState);
                 return false;
             }
         }
@@ -167,7 +162,7 @@ public class DistributabilityChecker {
         return true;
     }
 
-    private boolean checkDSP4()
+/*    private boolean checkDSP4()
     {
         System.out.println("In DSP4");
 
@@ -187,21 +182,59 @@ public class DistributabilityChecker {
                     compStates.retainAll(equvalClasses.getEquivalenceClass(process.getTsID()).getEqivalantStates(state.getLabel()));
                 }
 
-                System.out.println("   "+Arrays.toString(compStates.toArray()));
-
-
         next:   for (String compState:compStates)
                 {
                     for (Transition t:transitionSystem.getLinkedState(compState).getLinkes())
                         if(transition.getLebel().equals(t.getLebel()))
                             continue next;
 
-                    System.out.println("Not Equal at State "+state.getLabel()+" for transition " + transition.getLebel()+" with state "+compState );//+" for Process"+process.getTsID());
+                    System.out.println("Not Equal at State "+state.getLabel()+" for transition " + transition.getLebel()+" with state "+compState);//+" for Process"+process.getTsID());
                     return false;
                 }
             }
         }
 
         return true;
+    }*/
+
+    private boolean checkDSP4()
+    {
+        Set<String> aplhabets = transitionSystem.getAlphabets();
+
+        for (String alph:aplhabets)
+        {
+            Set<Transition> simTrans = transitionSystem.getAllTransitionWithLabel(alph);
+            Set<Stat> simStats = new HashSet<>();
+            for (Transition t:simTrans)
+                simStats.add(transitionSystem.getLinkedState(t.getFrom()));
+
+            Set<String> eqStst = new HashSet<>();
+            eqStst.addAll(transitionSystem.getStateSpace());
+
+            for (Proc process:domains.getProcInDomain(alph))
+            {
+                Set<String> pEqStat = new HashSet<>();
+                for (Stat simStat : simStats)
+                    pEqStat.addAll(equalClasses.getEquivalenceClass(process.getTsID()).getEqivalantStates(simStat.getLabel()));
+
+                eqStst.retainAll(pEqStat);
+            }
+
+    next:   for (String state:eqStst)
+            {
+                Stat stat = transitionSystem.getLinkedState(state);
+                for (Transition t: stat.getLinkes())
+                {
+                    if (t.getLebel().equals(alph))
+                        continue next;
+                }
+
+                System.out.println("Not Equal at State "+state+" for transition " + alph +" WRT EquvalStates "+Arrays.toString(eqStst.toArray()));
+                return false;
+            }
+        }
+
+        return true;
     }
+
 }
