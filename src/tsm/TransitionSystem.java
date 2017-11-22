@@ -104,6 +104,8 @@ public class TransitionSystem {
                 if(state.getLabel().equals(transition.getFrom()))
                 {
                     transitionSet.add(transition);
+//                    System.out.println(state);
+  //                  System.out.println(transition);
                     assert  state.addTransition(transition);
                     return true;
                 }
@@ -163,12 +165,12 @@ public class TransitionSystem {
         for (String s:sigma)
             finalString+=" "+s;
 
-        finalString+="\nInitial Strings are";
+        finalString+="\nInitial states are";
         for (String s:I)
             finalString+=" "+s.toString();
 
         if(!F.isEmpty()) {
-            finalString += "\nFinal Strings are";
+            finalString += "\nFinal states are";
             for (String s : F)
                 finalString += " " + s.toString();
         }

@@ -38,8 +38,10 @@ public class Stat {
 
     public boolean addTransition(Transition transition)
     {
-        if(label != transition.getFrom())
-            return  false;
+        if(!label.equals(transition.getFrom())) {
+            //System.out.println(label+" "+transition.getFrom()+" "+transition.getFrom().equals(label));
+            return false;
+        }
 
         return linkes.add(transition);
     }

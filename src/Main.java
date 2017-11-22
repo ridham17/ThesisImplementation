@@ -4,11 +4,107 @@ import tsm.Transition;
 import tsm.TransitionSystem;
 
 import java.util.HashSet;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) {
+        HashSet<String> states = new HashSet<String>();;
+        HashSet<String> pAlp = new HashSet<String>();
+        HashSet<String> initStates = new HashSet<String>();;
+        TransitionSystem transitionSystem;
+        Distribution distribution;
+        Proc process;
+
+        int nStstes,nAlp,nI,nTrans,nProcess;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter No of States, No of Alphabets, No of Initial States and No of transition:");
+        nStstes = scanner.nextInt();
+        nAlp = scanner.nextInt();
+        nI = scanner.nextInt();
+        nTrans = scanner.nextInt();
+
+        System.out.println(nStstes+" "+nAlp+" "+nI+" "+nTrans);
+        System.out.println("Enter Name of "+nStstes+" States:");
+
+        scanner.nextLine();
+        for (int i=0;i<nStstes;i++)
+        {
+            String s =scanner.nextLine();
+            states.add(s);
+        }
+        //System.out.println();
+
+        System.out.println("Enter Name of Alphabets for "+nAlp+" Alphabets:");
+        //scanner.nextLine();
+        for (int i=0;i<nAlp;i++)
+        {
+            String s =scanner.nextLine();
+            pAlp.add(s);
+        }
+
+        System.out.println("Enter Name of "+nI+" Initial States:");
+        //scanner.nextLine();
+        for (int i=0;i<nI;i++)
+        {
+            String s =scanner.nextLine();
+            initStates.add(s);
+        }
+
+        transitionSystem = new TransitionSystem(1, states, pAlp, initStates);
+
+        System.out.println("Enter Name of "+nTrans+" Transitions(Label From To):");
+        //scanner.nextLine();
+        for (int i=0;i<nTrans;i++)
+        {
+            String s =scanner.nextLine();
+            String st[] = s.split(" ");
+         //   System.out.println(st[0]+" "+st[1]+" "+st[2]);
+            transitionSystem.addTransition(new Transition(st[0],st[1].toString(),st[2].toString()));
+        }
+
+
+        assert transitionSystem.checkValidity();
+
+        distribution = new Distribution("TESTCASE 1", pAlp);
+
+        System.out.println("\n\nEnter No of Processes in Distribution");
+        nProcess = scanner.nextInt();
+
+        for (int i=0;i<nProcess;i++)
+        {
+            int nal;
+            pAlp = new HashSet<>();
+            System.out.println("For Process "+i+1+" : \nEnter No of Alphabets:");
+            nal = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("Enter Alphabets:");
+            for (int j=0;j<nal;j++)
+                pAlp.add(scanner.nextLine());
+
+            process = new Proc(i, pAlp);
+            distribution.addProcess(process);
+        }
+
+
+
+        assert distribution.checkValidity();
+
+        System.out.print(transitionSystem);
+        System.out.println(distribution);
+
+        DistributabilityChecker distributabilityChecker = new DistributabilityChecker(transitionSystem);
+        if (distributabilityChecker.isDistributableWRT(distribution))
+            System.out.println("\n\nIS DISTRIBUTABLE");
+        else
+            System.out.println("\n\nNOT DISTRIBUTABLE");
+
+
+/*
         testCase1();
         testCase2();
         testCase3();
@@ -16,6 +112,7 @@ public class Main {
         testCase5();
         testCase6();
         testCase7();
+*/
 
 
     }
