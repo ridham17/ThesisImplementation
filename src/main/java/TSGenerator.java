@@ -28,7 +28,6 @@ public class TSGenerator {
             Proc process = distribution.getProcess(equivalenceClass.getEqClassFor());
             System.out.println(process);
 
-
 /* To be implemented */
 
         }
