@@ -109,17 +109,19 @@ public class Main {
             System.out.println("\n\nIS DISTRIBUTABLE");
         else
             System.out.println("\n\nNOT DISTRIBUTABLE");
+
+
 */
-
-
         testCase1();
+/*
         testCase2();
         testCase3();
         testCase4();
         testCase5();
         testCase6();
         testCase7();
-
+        testCase8();
+*/
 
     }
 
@@ -130,10 +132,10 @@ public class Main {
         HashSet<String> pAlp;
         HashSet<String> initStates;
         TransitionSystem transitionSystem;
-        Set<Proc> distributedSystems;
         Distribution distribution;
         Proc process;
         TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("A");
@@ -174,46 +176,7 @@ public class Main {
         assert transitionSystem.checkValidity();
         System.out.print(transitionSystem);
 
-
-
-
-        Graph graph = new SingleGraph("TS1");
-
-
-        graph.addNode("A");
-        graph.addNode("B");
-        graph.addNode("C");
-        graph.addNode("D");
-        graph.addNode("E");
-        graph.addNode("F");
-        graph.addNode("G");
-        graph.addNode("H");
-
-        graph.display();
-
-        graph.addEdge("prod", "A", "B",true);
-        graph.addEdge("send1", "B", "C",true);
-        graph.addEdge("recv1", "C", "D",true);
-        graph.addEdge("prod2", "C", "E",true);
-        graph.addEdge("cons1", "D", "A",true);
-        graph.addEdge("prod3", "D", "F",true);
-        graph.addEdge("recv2", "E", "F",true);
-        graph.addEdge("send2", "F", "G",true);
-        graph.addEdge("cons2", "F", "B",true);
-        graph.addEdge("cons3", "G", "C",true);
-        graph.addEdge("prod4", "G", "H",true);
-        graph.addEdge("cons4", "H", "E",true);
-
-
-
-        for (Node node : graph) {
-            node.addAttribute("ui.label", node.getId());
-        }
-
-        for (Edge edge: graph.getEdgeSet())
-            edge.addAttribute("ui.label", edge.getId());
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-
+        transitionSystem.displayTranSys();
 
         distribution = new Distribution("TESTCASE 1", pAlp);
 
@@ -245,7 +208,7 @@ public class Main {
             System.out.println("\n\nNOT DISTRIBUTABLE");
         else
         {
-            System.out.println("\n\nNOT DISTRIBUTABLE");
+            System.out.println("\n\nDISTRIBUTABLE");
             tsGenerator = new TSGenerator(transitionSystem,distribution ,distCheckResult);
             distributedSystems = tsGenerator.generateDistSYS();
 
@@ -266,6 +229,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("A");
@@ -294,6 +259,7 @@ public class Main {
         assert transitionSystem2.checkValidity();
         System.out.print(transitionSystem2);
 
+        transitionSystem2.displayTranSys();
 
         Distribution distribution2 = new Distribution("TESTCASE 2", pAlp);
 
@@ -313,10 +279,18 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker2 = new DistributabilityChecker(transitionSystem2);
         DistCheckResult distCheckResult =distributabilityChecker2.checkDistributableWRT(distribution2);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem2,distribution2 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
 
     }
@@ -330,6 +304,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("0");
@@ -363,6 +339,7 @@ public class Main {
         assert transitionSystem3.checkValidity();
         System.out.print(transitionSystem3);
 
+        transitionSystem3.displayTranSys();
 
         Distribution distribution3 = new Distribution("TESTCASE 3", pAlp);
 
@@ -383,10 +360,18 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker3 = new DistributabilityChecker(transitionSystem3);
         DistCheckResult distCheckResult =distributabilityChecker3.checkDistributableWRT(distribution3);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem3,distribution3 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
     }
 
@@ -399,6 +384,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("0");
@@ -428,6 +415,7 @@ public class Main {
         assert transitionSystem4.checkValidity();
         System.out.print(transitionSystem4);
 
+        transitionSystem4.displayTranSys();
 
         Distribution distribution4 = new Distribution("TESTCASE 4", pAlp);
 
@@ -448,10 +436,18 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker4 = new DistributabilityChecker(transitionSystem4);
         DistCheckResult distCheckResult =distributabilityChecker4.checkDistributableWRT(distribution4);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem4,distribution4 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
 
     }
@@ -465,6 +461,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("0");
@@ -491,6 +489,7 @@ public class Main {
         assert transitionSystem5.checkValidity();
         System.out.print(transitionSystem5);
 
+        transitionSystem5.displayTranSys();
 
         Distribution distribution5 = new Distribution("TESTCASE 5", pAlp);
 
@@ -511,10 +510,18 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker5 = new DistributabilityChecker(transitionSystem5);
         DistCheckResult distCheckResult =distributabilityChecker5.checkDistributableWRT(distribution5);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem5,distribution5,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
     }
 
@@ -527,6 +534,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("0");
@@ -553,6 +562,7 @@ public class Main {
         assert transitionSystem6.checkValidity();
         System.out.print(transitionSystem6);
 
+        transitionSystem6.displayTranSys();
 
         Distribution distribution6 = new Distribution("TESTCASE 6", pAlp);
 
@@ -573,10 +583,18 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker6 = new DistributabilityChecker(transitionSystem6);
         DistCheckResult distCheckResult =distributabilityChecker6.checkDistributableWRT(distribution6);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem6,distribution6 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
 
     }
@@ -590,6 +608,8 @@ public class Main {
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         states = new HashSet<>();
         states.add("0");
@@ -612,6 +632,7 @@ public class Main {
         assert transitionSystem7.checkValidity();
         System.out.print(transitionSystem7);
 
+        transitionSystem7.displayTranSys();
 
         Distribution distribution7 = new Distribution("TESTCASE 7",pAlp);
 
@@ -630,11 +651,100 @@ public class Main {
 
         DistributabilityChecker distributabilityChecker7 = new DistributabilityChecker(transitionSystem7);
         DistCheckResult distCheckResult =distributabilityChecker7.checkDistributableWRT(distribution7);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem7,distribution7 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
 
     }
 
+    private static void testCase8()
+    {
+
+        HashSet<String> states;
+        HashSet<String> pAlp;
+        HashSet<String> initStates;
+        TransitionSystem transitionSystem;
+        Distribution distribution;
+        Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
+
+        states = new HashSet<>();
+        states.add("0");
+        states.add("1");
+        states.add("2");
+        states.add("3");
+        states.add("4");
+
+        pAlp = new HashSet<>();
+        pAlp.add("a");
+        pAlp.add("b");
+        pAlp.add("c");
+        pAlp.add("d");
+
+        initStates = new HashSet<String>();
+        initStates.add("0");
+
+        TransitionSystem transitionSystem8 = new TransitionSystem(8,states,pAlp,initStates);
+
+        assert transitionSystem8.addTransition(new Transition("a","0","1"));
+        assert transitionSystem8.addTransition(new Transition("b","1","2"));
+        assert transitionSystem8.addTransition(new Transition("c","2","3"));
+        assert transitionSystem8.addTransition(new Transition("d","3","4"));
+
+        assert transitionSystem8.checkValidity();
+        System.out.print(transitionSystem8);
+
+        transitionSystem8.displayTranSys();
+
+        Distribution distribution8 = new Distribution("TESTCASE 8",pAlp);
+
+        pAlp = new HashSet<>();
+        pAlp.add("a");
+        pAlp.add("d");
+        process = new Proc(1,pAlp);
+        distribution8.addProcess(process);
+
+        pAlp = new HashSet<>();
+        pAlp.add("b");
+        pAlp.add("c");
+        pAlp.add("d");
+        process = new Proc(2,pAlp);
+        distribution8.addProcess(process);
+
+        pAlp = new HashSet<>();
+        pAlp.add("b");
+        pAlp.add("c");
+        pAlp.add("a");
+        process = new Proc(3,pAlp);
+        distribution8.addProcess(process);
+
+        assert distribution8.checkValidity();
+        System.out.println(distribution8);
+
+        DistributabilityChecker distributabilityChecker7 = new DistributabilityChecker(transitionSystem8);
+        DistCheckResult distCheckResult =distributabilityChecker7.checkDistributableWRT(distribution8);
+        if(!distCheckResult.isDist())
+            System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem8,distribution8 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
+
+    }
 }

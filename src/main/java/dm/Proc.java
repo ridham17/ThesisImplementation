@@ -1,7 +1,11 @@
 package dm;
 
+import scala.Int;
+import tsm.Stat;
+import tsm.Transition;
 import tsm.TransitionSystem;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Proc extends TransitionSystem {
@@ -27,6 +31,18 @@ public class Proc extends TransitionSystem {
         return false;
     }
 
+    public void setStates(int n)
+    {
+        transitionSet = new HashSet<Transition>();
+        linkedStates = new HashSet<Stat>();
+
+        for (int i=0;i<n;i++) {
+            Q.add(Integer.toString(i));
+            linkedStates.add(new Stat(Integer.toString(i)));
+        }
+
+    }
+
     @Override
     public String toString() {
         String finalString = "\n\nProcess ID: " +tsID+ "\nAlphabets are ";
@@ -34,6 +50,11 @@ public class Proc extends TransitionSystem {
             finalString+=" "+s;
 
         return finalString;
+    }
+
+    public String printTS()
+    {
+        return super.toString();
     }
 }
 

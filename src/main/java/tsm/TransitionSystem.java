@@ -1,5 +1,11 @@
 package tsm;
 
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.graph.implementations.SingleGraph;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,6 +81,19 @@ public class TransitionSystem {
         return sigma;
     }
 
+   /* public  boolean containsAplhabet(String aplh)
+    {
+        for (String a:sigma)
+            if(a.equals(aplh))
+            {
+                System.out.println("H I "+a);
+                return true;
+            }
+        System.out.println("H I X");
+        return false;
+
+    }
+*/
     public Set<Transition> getTransitionSet() {
         return transitionSet;
     }
@@ -93,6 +112,7 @@ public class TransitionSystem {
                 Q.contains(transition.getTo())&&
                 sigma.contains(transition.getLebel()))
         {
+
             for(Transition t:transitionSet)
             {
                 if(t.equals(transition))
@@ -128,6 +148,26 @@ public class TransitionSystem {
     }
 */
 
+    public boolean containsTransition(Transition transition)
+    {
+        for(Transition t:transitionSet)
+        {
+            if(t.equals(transition))
+                return true;
+        }
+
+        return false;
+    }
+
+    public String getTrans(String from,String to)
+    {
+        for(Transition t:transitionSet)
+            if(t.getFrom().equals(from)&&t.getTo().equals(to))
+                return t.getLebel();
+
+        return null;
+    }
+
     public Set<Transition> getAllTransitionWithLabel(String label)
     {
         Set<Transition> simTrans = new HashSet<Transition>();
@@ -157,7 +197,32 @@ public class TransitionSystem {
 
     public void displayTranSys()
     {
-/* To be implemented */
+
+        Graph graph = new MultiGraph(Integer.toString(tsID));
+
+        for (String state:Q )
+            graph.addNode(state);
+
+        int i=0;
+        for(Transition transition:transitionSet)
+        {
+            graph.addEdge(transition.getLebel()+i,transition.getFrom(),transition.getTo(),true);
+            i++;
+        }
+
+        graph.display();
+
+        for (Node node : graph) {
+            node.addAttribute("ui.label","      "+node.getId());
+        }
+
+        for (Edge edge: graph.getEdgeSet())
+            edge.addAttribute("ui.label", "      "+edge.getId().replaceAll("[\\d.]", ""));
+
+        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
+
+
     }
 
     @Override
