@@ -68,7 +68,7 @@ public class TSGenerator {
 
             assert process.checkValidity();
 
-            System.out.println(process.printTS());
+            //System.out.println(process.printTS());
             distSystems.add(process);
         }
 

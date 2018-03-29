@@ -16,13 +16,15 @@ public class Main {
 
 
     public static void main(String[] args) {
-/*
-        HashSet<String> states = new HashSet<String>();;
-        HashSet<String> pAlp = new HashSet<String>();
-        HashSet<String> initStates = new HashSet<String>();;
+
+        HashSet<String> states;
+        HashSet<String> pAlp;
+        HashSet<String> initStates;
         TransitionSystem transitionSystem;
         Distribution distribution;
         Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
 
         int nStstes,nAlp,nI,nTrans,nProcess;
         Scanner scanner = new Scanner(System.in);
@@ -37,6 +39,8 @@ public class Main {
         System.out.println("Enter Name of "+nStstes+" States:");
 
         scanner.nextLine();
+
+        states = new HashSet<>();
         for (int i=0;i<nStstes;i++)
         {
             String s =scanner.nextLine();
@@ -46,6 +50,7 @@ public class Main {
 
         System.out.println("Enter Name of Alphabets for "+nAlp+" Alphabets:");
         //scanner.nextLine();
+        pAlp = new HashSet<>();
         for (int i=0;i<nAlp;i++)
         {
             String s =scanner.nextLine();
@@ -54,6 +59,7 @@ public class Main {
 
         System.out.println("Enter Name of "+nI+" Initial States:");
         //scanner.nextLine();
+        initStates = new HashSet<>();
         for (int i=0;i<nI;i++)
         {
             String s =scanner.nextLine();
@@ -100,20 +106,35 @@ public class Main {
 
         assert distribution.checkValidity();
 
+        System.out.println("Given Specification is: ");
         System.out.print(transitionSystem);
+        transitionSystem.displayTranSys();
         System.out.println(distribution);
 
         DistributabilityChecker distributabilityChecker = new DistributabilityChecker(transitionSystem);
         DistCheckResult distCheckResult =distributabilityChecker.checkDistributableWRT(distribution);
-        if(distCheckResult.isDist())
-            System.out.println("\n\nIS DISTRIBUTABLE");
-        else
+
+
+
+        if(!distCheckResult.isDist())
             System.out.println("\n\nNOT DISTRIBUTABLE");
+        else {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem, distribution, distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (Proc distSys : distributedSystems) {
+                scanner.nextLine();
+                System.out.println(distSys.printTS());
+                distSys.displayTranSys();
+
+            }
+
+        }
 
 
-*/
-        testCase1();
-/*
+
+/*        testCase1();
         testCase2();
         testCase3();
         testCase4();
@@ -212,6 +233,7 @@ public class Main {
             tsGenerator = new TSGenerator(transitionSystem,distribution ,distCheckResult);
             distributedSystems = tsGenerator.generateDistSYS();
 
+            System.out.println("\nDistributed Transition Systems are");
             for (TransitionSystem distSys:distributedSystems)
                 distSys.displayTranSys();
 
@@ -726,6 +748,131 @@ public class Main {
         pAlp.add("c");
         pAlp.add("a");
         process = new Proc(3,pAlp);
+        distribution8.addProcess(process);
+
+        assert distribution8.checkValidity();
+        System.out.println(distribution8);
+
+        DistributabilityChecker distributabilityChecker7 = new DistributabilityChecker(transitionSystem8);
+        DistCheckResult distCheckResult =distributabilityChecker7.checkDistributableWRT(distribution8);
+        if(!distCheckResult.isDist())
+            System.out.println("\n\nNOT DISTRIBUTABLE");
+        else
+        {
+            System.out.println("\n\nDISTRIBUTABLE");
+            tsGenerator = new TSGenerator(transitionSystem8,distribution8 ,distCheckResult);
+            distributedSystems = tsGenerator.generateDistSYS();
+
+            for (TransitionSystem distSys:distributedSystems)
+                distSys.displayTranSys();
+
+        }
+
+    }
+
+    private static void testCase9()
+    {
+
+        HashSet<String> states;
+        HashSet<String> pAlp;
+        HashSet<String> initStates;
+        TransitionSystem transitionSystem;
+        Distribution distribution;
+        Proc process;
+        TSGenerator tsGenerator;
+        Set<Proc> distributedSystems;
+
+        states = new HashSet<>();
+        states.add("0");
+        states.add("1");
+        states.add("2");
+        states.add("3");
+        states.add("4");
+        states.add("5");
+        states.add("6");
+        states.add("7");
+        states.add("8");
+        states.add("9");
+        states.add("10");
+        states.add("11");
+        states.add("12");
+
+        pAlp = new HashSet<>();
+        pAlp.add("a");
+        pAlp.add("b");
+        pAlp.add("c");
+        pAlp.add("d");
+        pAlp.add("e");
+        pAlp.add("f");
+        pAlp.add("g");
+
+        initStates = new HashSet<String>();
+        initStates.add("0");
+
+        TransitionSystem transitionSystem8 = new TransitionSystem(9,states,pAlp,initStates);
+
+        /*assert transitionSystem8.addTransition(new Transition("a","0","3"));
+        assert transitionSystem8.addTransition(new Transition("b","0","1"));
+        assert transitionSystem8.addTransition(new Transition("c","0","2"));
+        assert transitionSystem8.addTransition(new Transition("c","1","4"));
+        assert transitionSystem8.addTransition(new Transition("a","1","5"));
+        assert transitionSystem8.addTransition(new Transition("d","1","2"));
+        assert transitionSystem8.addTransition(new Transition("b","4","5"));
+        assert transitionSystem8.addTransition(new Transition("b","2","6"));
+        assert transitionSystem8.addTransition(new Transition("a","3","7"));
+        assert transitionSystem8.addTransition(new Transition("d","3","8"));
+        assert transitionSystem8.addTransition(new Transition("e","5","9"));
+        assert transitionSystem8.addTransition(new Transition("a","6","9"));
+        assert transitionSystem8.addTransition(new Transition("b","6","10"));
+        assert transitionSystem8.addTransition(new Transition("b","7","10"));
+        assert transitionSystem8.addTransition(new Transition("b","8","11"));
+        assert transitionSystem8.addTransition(new Transition("c","11","10"));
+        assert transitionSystem8.addTransition(new Transition("a","9","12"));
+        assert transitionSystem8.addTransition(new Transition("c","10","12"));
+        assert transitionSystem8.addTransition(new Transition("a","11","12"));*/
+
+
+        assert transitionSystem8.addTransition(new Transition("a","0","3"));
+        assert transitionSystem8.addTransition(new Transition("g","0","1"));
+        assert transitionSystem8.addTransition(new Transition("c","0","2"));
+        assert transitionSystem8.addTransition(new Transition("d","1","4"));
+        assert transitionSystem8.addTransition(new Transition("e","1","5"));
+        assert transitionSystem8.addTransition(new Transition("f","1","2"));
+        assert transitionSystem8.addTransition(new Transition("g","4","5"));
+        assert transitionSystem8.addTransition(new Transition("a","2","6"));
+        assert transitionSystem8.addTransition(new Transition("b","3","7"));
+        assert transitionSystem8.addTransition(new Transition("c","3","8"));
+        assert transitionSystem8.addTransition(new Transition("d","5","9"));
+        assert transitionSystem8.addTransition(new Transition("g","6","9"));
+        assert transitionSystem8.addTransition(new Transition("f","6","10"));
+        assert transitionSystem8.addTransition(new Transition("g","7","10"));
+        assert transitionSystem8.addTransition(new Transition("f","8","11"));
+        assert transitionSystem8.addTransition(new Transition("b","11","10"));
+        assert transitionSystem8.addTransition(new Transition("c","9","12"));
+        assert transitionSystem8.addTransition(new Transition("d","10","12"));
+        assert transitionSystem8.addTransition(new Transition("e","11","12"));
+
+        assert transitionSystem8.checkValidity();
+        System.out.print(transitionSystem8);
+
+        transitionSystem8.displayTranSys();
+
+        Distribution distribution8 = new Distribution("TESTCASE 9",pAlp);
+
+        pAlp = new HashSet<>();
+        pAlp.add("a");
+        pAlp.add("d");
+        pAlp.add("f");
+        pAlp.add("e");
+        process = new Proc(1,pAlp);
+        distribution8.addProcess(process);
+
+        pAlp = new HashSet<>();
+        pAlp.add("b");
+        pAlp.add("c");
+        pAlp.add("d");
+        pAlp.add("g");
+        process = new Proc(2,pAlp);
         distribution8.addProcess(process);
 
         assert distribution8.checkValidity();
